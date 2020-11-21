@@ -78,10 +78,42 @@ describe('MultiCheck', () => {
       });
     });
 
-    
 
-    it('if all other options are checked, `Select All` should be checked', () => {});
 
-    it('if any other option are unchecked, `Select All` should be unchecked', () => {});
+    it('if all other options are checked, `Select All` should be checked', () => {
+      const { container } = render(
+        <MultiCheck label={testLabel} 
+          options={options}
+          values={options.map(option => option.value)}
+        />
+      );
+
+      const checkOptions = container.querySelectorAll(`input[type="checkbox"]`);
+      const selectAllEl = checkOptions[0];
+      const otherOptionEls = Array.prototype.slice.call(checkOptions, 1);
+      otherOptionEls.forEach(el => {
+        expect(el).toBeChecked();
+      });
+      expect(selectAllEl).toBeChecked();
+    });
+
+    it('if any other option are unchecked, `Select All` should be unchecked', () => {
+      const defaultValues = ['333', '555'];
+      const { container } = render(
+        <MultiCheck label={testLabel} 
+          options={options}
+          values={defaultValues}
+        />
+      );
+
+      const checkOptions = container.querySelectorAll(`input[type="checkbox"]`);
+      const selectAllEl = checkOptions[0];
+      // const otherOptionEls = Array.prototype.slice.call(checkOptions, 1);
+      // otherOptionEls.forEach(el => {
+      //   expect(el).toBeChecked();
+      // });
+      // expect(otherOptionEls).toHaveValue(defaultValues);
+      expect(selectAllEl).not.toBeChecked();
+    });
   });
 });
