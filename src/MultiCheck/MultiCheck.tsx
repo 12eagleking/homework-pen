@@ -45,7 +45,7 @@ type Props = {
 
 const MultiCheck: React.FunctionComponent<Props> = (props): JSX.Element => {
   const allOption: Option = {
-    label: 'Selec All',
+    label: 'Select All',
     value: 'all',
   };
   
