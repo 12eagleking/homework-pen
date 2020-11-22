@@ -1,26 +1,12 @@
-import './MultiCheck.css';
-
 import React, {useState} from 'react';
+
+import CheckOption, { CheckedOptionProps } from './CheckOption';
+
+import './MultiCheck.css';
 
 export type Option = {
   label: string,
   value: string
-}
-
-interface CheckedOptionProps extends Option {
-  checked: boolean;
-  onChange?: (e: {checked: boolean, value: string}) => void;
-}
-
-const CheckOption: React.FunctionComponent<CheckedOptionProps> = (props): JSX.Element => {
-  const handleChange = (e: React.ChangeEvent) => {
-    // e.preventDefault();
-    props.onChange && props.onChange({checked: !props.checked, value: props.value});
-  }
-
-  return <div className="CheckOption">
-    <input type="checkbox" checked={props.checked} value={props.value} onChange={handleChange} />{props.label}
-  </div>
 }
 
 /**
