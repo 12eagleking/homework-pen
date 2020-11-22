@@ -1,8 +1,6 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 
 import useOptionsCheck from './useOptionsCheck';
-// import { OptionListProps } from '../MultiCheck/OptionList';
-
 describe('useOptionsCheck', () => {
   it('initialization, toggle select all option, toggle other check options', () => {
     const props = {
