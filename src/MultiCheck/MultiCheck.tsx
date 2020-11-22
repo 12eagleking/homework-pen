@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 import CheckOption, { CheckedOptionProps } from './CheckOption';
+import OptionList from './OptionList';
 
 import './MultiCheck.css';
 
@@ -21,7 +22,7 @@ export type Option = {
  * @param {Function} onChange - when checked options are changed,
  *                             they should be passed to outside
  */
-type Props = {
+export type Props = {
   label?: string,
   options: Option[],
   columns?: number,
@@ -30,74 +31,9 @@ type Props = {
 }
 
 const MultiCheck: React.FunctionComponent<Props> = (props): JSX.Element => {
-  const allOption: Option = {
-    label: 'Select All',
-    value: 'all',
-  };
-  
-  // selcect all check status
-  const initialCheckedValues = props.values || [];
-  const [checkedValues, setCheckedValues] = useState(initialCheckedValues);
-
-  const initialSelectAllCheckStatus = props.options.every(option => checkedValues.some(value => option.value === value));
-  const [selectAllCheckStatus, setSelectAllCheckStatus] = useState(initialSelectAllCheckStatus);
-
-  // select all onChange handler
-  const handleSelectAllChange: CheckedOptionProps['onChange'] = (e) => {
-    setSelectAllCheckStatus(e.checked);
-    const currentCheckedValues = e.checked ? props.options.map(option => option.value) : [];
-    setCheckedValues(currentCheckedValues);
-
-    const selectedOptions = props.options.filter(option => currentCheckedValues.some(value => value === option.value));
-    props.onChange && props.onChange(selectedOptions);
-  }
-
-  // other options onChange handler
-  const handleChange: CheckedOptionProps['onChange'] = e => {
-    function getCheckValues(checked: boolean, value: string): string[] {
-      if (checked) {
-        return props.options.filter(option => checkedValues.some(value => value === option.value) || option.value === e.value).map(it => it.value);
-      } else {
-        return checkedValues.filter(it => it !== value);
-      }
-    }
-    const currentCheckedValues = getCheckValues(e.checked, e.value);
-    setCheckedValues(currentCheckedValues);
-
-    const selectAllChecked = props.options.every(option => currentCheckedValues.some(value => value === option.value));
-    setSelectAllCheckStatus(selectAllChecked);
-
-    const selectedOptions = props.options.filter(option => currentCheckedValues.some(value => value === option.value));
-    props.onChange && props.onChange(selectedOptions);
-  }
-
   return <div className='MultiCheck'>
-    {props.label ? <label>{props.label}</label> : null}
-    <div className="OptionsContainer" style={{
-      columnCount: props.columns || 1,
-    }}>
-      {
-        props.options.length ? <CheckOption
-          key={allOption.value}
-          label={allOption.label} 
-          value={allOption.value}
-          checked={selectAllCheckStatus}
-          onChange={handleSelectAllChange}
-        /> : null
-      }
-      {/* TODO */
-        props.options.map(({label, value}) => {
-          const checked = checkedValues.some((it) => it === value);
-          return <CheckOption
-            key={value}
-            label={label}
-            value={value}
-            checked={checked}
-            onChange={handleChange}
-          />
-        })
-      }
-    </div>
+    <label>{props.label}</label>
+    <OptionList {...props} />
   </div>
 }
 
