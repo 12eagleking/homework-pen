@@ -15,7 +15,9 @@ describe('CheckOption', () => {
         checked: true,
       };
       const { container } = render(<CheckOption {...props} />);
-      const checkbox = container.querySelector(`input[type='checkbox'][value='${props.value}']`);
+      const checkbox = container.querySelector(
+        `input[type='checkbox'][value='${props.value}']`
+      );
       expect(checkbox).toBeChecked();
     });
   });

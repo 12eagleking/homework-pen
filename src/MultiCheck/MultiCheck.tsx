@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import CheckOption, { CheckedOptionProps } from './CheckOption';
 import OptionList from './OptionList';
 
 import './MultiCheck.css';
 
 export type Option = {
-  label: string,
-  value: string
-}
+  label: string;
+  value: string;
+};
 
 /**
  * Notice:
@@ -23,18 +22,20 @@ export type Option = {
  *                             they should be passed to outside
  */
 export type Props = {
-  label?: string,
-  options: Option[],
-  columns?: number,
-  values?: string[]
-  onChange?: (options: Option[]) => void,
-}
+  label?: string;
+  options: Option[];
+  columns?: number;
+  values?: string[];
+  onChange?: (options: Option[]) => void;
+};
 
 const MultiCheck: React.FunctionComponent<Props> = (props): JSX.Element => {
-  return <div className='MultiCheck'>
-    <label>{props.label}</label>
-    <OptionList {...props} />
-  </div>
-}
+  return (
+    <div className="MultiCheck">
+      <label>{props.label}</label>
+      <OptionList {...props} />
+    </div>
+  );
+};
 
 export default MultiCheck;
