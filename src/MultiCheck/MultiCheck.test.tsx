@@ -4,8 +4,6 @@ import '@testing-library/jest-dom/extend-expect';
 
 import MultiCheck, { Option } from './MultiCheck';
 
-// TODO more tests
-
 describe('MultiCheck', () => {
   const testLabel = 'test label';
   const options = [
@@ -81,24 +79,11 @@ describe('MultiCheck', () => {
 
 
     it('if all other options are checked, `Select All` should be checked', () => {
-      const { container } = render(
-        <MultiCheck label={testLabel} 
-          options={options}
-          values={options.map(option => option.value)}
-        />
-      );
-
-      const checkOptions = container.querySelectorAll(`input[type="checkbox"]`);
-      const selectAllEl = checkOptions[0];
-      const otherOptionEls = Array.prototype.slice.call(checkOptions, 1);
-      otherOptionEls.forEach(el => {
-        expect(el).toBeChecked();
-      });
-      expect(selectAllEl).toBeChecked();
-    });
-
-    it('if any other option are unchecked, `Select All` should be unchecked', () => {
-      const defaultValues = ['333', '555'];
+      const options = [
+        {label: 'aaa', value: '111',},
+        {label: 'bbb', value: '222',},
+      ];
+      const defaultValues = ['111', '222'];
       const { container } = render(
         <MultiCheck label={testLabel} 
           options={options}
@@ -106,13 +91,54 @@ describe('MultiCheck', () => {
         />
       );
 
-      const checkOptions = container.querySelectorAll(`input[type="checkbox"]`);
-      const selectAllEl = checkOptions[0];
-      // const otherOptionEls = Array.prototype.slice.call(checkOptions, 1);
-      // otherOptionEls.forEach(el => {
-      //   expect(el).toBeChecked();
-      // });
-      // expect(otherOptionEls).toHaveValue(defaultValues);
+      const selectAllEl = container.querySelector(`input[type='checkbox'][value='all']`);
+      const checkOption1 = container.querySelector(`input[type='checkbox'][value='${options[0].value}']`);
+      const checkOption2 = container.querySelector(`input[type='checkbox'][value='${options[1].value}']`);
+
+      expect(checkOption1).toBeChecked();
+      expect(checkOption2).toBeChecked();
+      expect(selectAllEl).toBeChecked();
+
+      fireEvent.click(checkOption2!);
+      expect(checkOption1).toBeChecked();
+      expect(checkOption2).not.toBeChecked();
+      expect(selectAllEl).not.toBeChecked();
+
+      fireEvent.click(checkOption2!);
+      expect(checkOption1).toBeChecked();
+      expect(checkOption2).toBeChecked();
+      expect(selectAllEl).toBeChecked();
+    });
+
+    it('if any other option are unchecked, `Select All` should be unchecked', () => {
+      const options = [
+        {label: 'aaa', value: '111',},
+        {label: 'bbb', value: '222',},
+      ];
+      const defaultValues = ['111'];
+      const { container } = render(
+        <MultiCheck label={testLabel} 
+          options={options}
+          values={defaultValues}
+        />
+      );
+
+      const selectAllEl = container.querySelector(`input[type='checkbox'][value='all']`);
+      const checkOption1 = container.querySelector(`input[type='checkbox'][value='${options[0].value}']`);
+      const checkOption2 = container.querySelector(`input[type='checkbox'][value='${options[1].value}']`);
+      
+      expect(checkOption1).toBeChecked();
+      expect(checkOption2).not.toBeChecked();
+      expect(selectAllEl).not.toBeChecked();
+
+      fireEvent.click(checkOption2!);
+      expect(checkOption1).toBeChecked();
+      expect(checkOption2).toBeChecked();
+      expect(selectAllEl).toBeChecked();
+
+      fireEvent.click(checkOption1!);
+      expect(checkOption1).not.toBeChecked();
+      expect(checkOption2).toBeChecked();
       expect(selectAllEl).not.toBeChecked();
     });
   });
