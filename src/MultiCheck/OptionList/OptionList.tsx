@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Props, Option } from '../MultiCheck';
 import CheckOption, { CheckedOptionProps } from '../CheckOption';
-import useOptionsCheck from '../../hooks/ useOptionsCheck';
+import useOptionsCheck from '../../hooks/useOptionsCheck';
 
 export type OptionListProps = Omit<Props, 'label'>
 
