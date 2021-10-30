@@ -11,6 +11,7 @@ const options: Option[] = [
   {label: 'ggg', value: '777',},
   {label: 'hhh', value: '888',},
   {label: 'iii', value: '999',},
+  {label: 'iii', value: '999',},
 ]
 
 const defaultValues: string[] = [
