@@ -15,7 +15,8 @@ const options: Option[] = [
 
 const defaultValues: string[] = [
   '333',
-  '555'
+  '555',
+  '666'
 ]
 
 const App: React.FunctionComponent = (): JSX.Element => {
